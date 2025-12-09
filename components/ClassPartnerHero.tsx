@@ -10,7 +10,7 @@ const ebGaramond = EB_Garamond({
   weight: ["400", "500", "600", "700"],
 });
 
-export function CluelyHero() {
+export function ClassPartnerHero() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-white text-gray-900 flex flex-col items-center pt-40 px-4">
       {/* Aurora Background */}
