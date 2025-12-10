@@ -22,7 +22,7 @@ export function CTASection() {
     return (
         <section className="py-24 px-4 overflow-hidden">
             <div className="container mx-auto max-w-6xl">
-                <div className="relative w-full rounded-[3rem] bg-blue-600 overflow-hidden shadow-2xl transition-all hover:shadow-blue-500/25">
+                <div className="relative w-full rounded-2xl md:rounded-[3rem] bg-blue-600 overflow-hidden shadow-2xl transition-all hover:shadow-blue-500/25">
 
                     {/* Aurora Background */}
                     <div className="absolute inset-0 z-0">
@@ -35,8 +35,8 @@ export function CTASection() {
                     </div>
 
                     {/* === 3D Radiating Circles === */}
-                    {/* Centered vertically on the right edge */}
-                    <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[45%] md:translate-x-[35%] h-[150%] aspect-square flex items-center justify-center pointer-events-none">
+                    {/* Centered vertically on the right edge - Hidden on mobile */}
+                    <div className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 translate-x-[35%] h-[150%] aspect-square items-center justify-center pointer-events-none">
 
                         {/* Circle 1 (Largest, Bottom) */}
                         <div className="absolute h-full w-full rounded-full bg-gradient-to-br from-white/5 to-transparent border border-white/5 backdrop-blur-[1px] shadow-2xl z-10" />

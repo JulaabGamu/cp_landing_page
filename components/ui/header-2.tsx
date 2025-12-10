@@ -85,43 +85,7 @@ export function Header() {
 						Get Started
 					</Button>
 				</div>
-				<Button size="icon" variant="outline" onClick={() => setOpen(!open)} className="md:hidden rounded-full">
-					<MenuToggleIcon open={open} className="size-5" duration={300} />
-				</Button>
 			</nav>
-
-			<div
-				className={cn(
-					'bg-background/90 fixed top-14 right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden border-y md:hidden',
-					open ? 'block' : 'hidden',
-				)}
-			>
-				<div
-					data-slot={open ? 'open' : 'closed'}
-					className={cn(
-						'data-[slot=open]:animate-in data-[slot=open]:zoom-in-95 data-[slot=closed]:animate-out data-[slot=closed]:zoom-out-95 ease-out',
-						'flex h-full w-full flex-col justify-between gap-y-2 p-4',
-					)}
-				>
-					<div className="grid gap-y-2">
-						{links.map((link) => (
-							<a
-								key={link.label}
-								className={cn(buttonVariants({
-									variant: 'ghost',
-									className: 'justify-start rounded-full',
-								}))}
-								href={link.href}
-							>
-								{link.label}
-							</a>
-						))}
-					</div>
-					<div className="flex flex-col gap-2">
-						<Button className="w-full rounded-full" style={{ backgroundColor: '#1E82E0' }}>Get Started</Button>
-					</div>
-				</div>
-			</div>
 		</header>
 	);
 }

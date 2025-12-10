@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { GradientButton } from "./GradientButton";
-import { Mic, Send, GripHorizontal, StopCircle, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Mic, Send, StopCircle, RefreshCw, CheckCircle2 } from "lucide-react";
 import { Button } from "./ui/button";
 import localFont from "next/font/local";
+import { motion } from "framer-motion";
 
 const workSans = localFont({
     src: [
@@ -86,7 +87,13 @@ export default function FeatureTranscription() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
                     {/* Description Paragraph (On the Left) */}
-                    <div className="order-2 lg:order-1 flex flex-col gap-6">
+                    <motion.div
+                        className="order-2 lg:order-1 flex flex-col gap-6"
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                    >
                         <h2 className={`text-4xl md:text-5xl font-light tracking-tight text-gray-900 ${workSans.className}`}>
                             Fast transcriptions, <br />
                             <span className="text-blue-600">effortless learning.</span>
@@ -115,10 +122,16 @@ export default function FeatureTranscription() {
                         <div className="mt-6">
                             <GradientButton href="#">Try Live Demo</GradientButton>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* UI Mockup (On the Right) */}
-                    <div className="order-1 lg:order-2 relative group">
+                    <motion.div
+                        className="order-1 lg:order-2 relative group"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                    >
                         {/* Decorative blob behind */}
                         <div className="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-amber-50 rounded-[2rem] blur-2xl opacity-60 -z-10" />
 
@@ -133,20 +146,20 @@ export default function FeatureTranscription() {
                             }}
                         >
                             {/* Main App Window Frame */}
-                            <div className="bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden flex flex-col h-[500px] w-full max-w-xl mx-auto lg:mx-0 transition-all">
+                            <div className="bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden flex flex-col h-[400px] sm:h-[500px] w-full max-w-xl mx-auto lg:mx-0 transition-all">
 
                                 {/* App Header */}
-                                <div className="h-14 border-b border-gray-100 flex items-center justify-between px-4 bg-gray-50/50">
-                                    <div className="flex items-center gap-3">
-                                        <Button size="sm" variant="destructive" className="h-8 rounded-full px-3 text-xs font-medium gap-2 bg-red-500 hover:bg-red-600 text-white shadow-sm">
-                                            <StopCircle size={14} fill="currentColor" /> Stop
+                                <div className="h-11 sm:h-14 border-b border-gray-100 flex items-center justify-between px-3 sm:px-4 bg-gray-50/50">
+                                    <div className="flex items-center gap-2 sm:gap-3">
+                                        <Button size="sm" variant="destructive" className="h-7 sm:h-8 rounded-full px-2 sm:px-3 text-[10px] sm:text-xs font-medium gap-1 sm:gap-2 bg-red-500 hover:bg-red-600 text-white shadow-sm">
+                                            <StopCircle size={12} className="sm:w-3.5 sm:h-3.5" fill="currentColor" /> Stop
                                         </Button>
-                                        <div className="h-8 px-3 rounded-full bg-white border border-gray-200 flex items-center gap-2 shadow-sm cursor-pointer hover:border-blue-200 transition-colors">
-                                            <span className="text-xs font-semibold text-blue-600">I'm lost ⌘L</span>
+                                        <div className="hidden sm:flex h-8 px-3 rounded-full bg-white border border-gray-200 items-center gap-2 shadow-sm cursor-pointer hover:border-blue-200 transition-colors">
+                                            <span className="text-xs font-semibold text-blue-600">I&apos;m lost ⌘L</span>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex items-center gap-2 bg-white rounded-full border border-gray-200 px-3 py-1.5 shadow-sm">
+                                    <div className="flex items-center gap-2 sm:gap-3">
+                                        <div className="hidden sm:flex items-center gap-2 bg-white rounded-full border border-gray-200 px-3 py-1.5 shadow-sm">
                                             <Mic size={14} className="text-gray-400" />
                                             <div className="w-20 h-1 bg-gray-100 rounded-full overflow-hidden">
                                                 <div className="h-full bg-green-500 w-2/3 animate-pulse" />
@@ -158,13 +171,13 @@ export default function FeatureTranscription() {
 
                                 {/* Main Content Area */}
                                 <div className="flex-1 flex overflow-hidden">
-                                    {/* Live Transcript Panel */}
-                                    <div className="flex-1 p-6 flex flex-col gap-4 relative">
-                                        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Live Transcript</h3>
+                                    {/* Live Transcript Panel - Hidden on mobile */}
+                                    <div className="hidden sm:flex flex-1 p-4 sm:p-6 flex-col gap-3 sm:gap-4 relative">
+                                        <h3 className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 sm:mb-2">Live Transcript</h3>
 
-                                        <div className="space-y-4 font-sans text-sm leading-relaxed text-gray-800">
-                                            <div className="flex gap-4">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs shrink-0">
+                                        <div className="space-y-3 sm:space-y-4 font-sans text-xs sm:text-sm leading-relaxed text-gray-800">
+                                            <div className="flex gap-3 sm:gap-4">
+                                                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-[10px] sm:text-xs shrink-0">
                                                     PR
                                                 </div>
                                                 <div className="space-y-1">
@@ -203,27 +216,27 @@ export default function FeatureTranscription() {
                                         </div>
 
                                         {/* Floating 'Ask' Bar at bottom of transcript */}
-                                        <div className="mt-auto pt-4 relative z-10">
-                                            <div className="bg-white border border-gray-200 p-1 pl-4 rounded-full shadow-lg flex items-center gap-3 transition-shadow hover:shadow-xl focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300">
+                                        <div className="mt-auto pt-3 sm:pt-4 relative z-10">
+                                            <div className="bg-white border border-gray-200 p-1 pl-3 sm:pl-4 rounded-full shadow-lg flex items-center gap-2 sm:gap-3 transition-shadow hover:shadow-xl focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300">
                                                 <input
                                                     type="text"
                                                     placeholder="Ask about what was just said..."
-                                                    className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-gray-400 py-2 h-9"
+                                                    className="flex-1 bg-transparent border-none outline-none text-xs sm:text-sm placeholder:text-gray-400 py-1.5 sm:py-2 h-7 sm:h-9"
                                                 />
-                                                <Button size="icon" className="h-8 w-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white shrink-0">
-                                                    <Send size={14} />
+                                                <Button size="icon" className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white shrink-0">
+                                                    <Send size={12} className="sm:w-3.5 sm:h-3.5" />
                                                 </Button>
                                             </div>
-                                            <div className="mt-2 text-[10px] text-gray-400 px-4 text-center">
+                                            <div className="hidden sm:block mt-2 text-[10px] text-gray-400 px-4 text-center">
                                                 Press <kbd className="font-sans border border-gray-200 rounded px-1">Shift</kbd> + <kbd className="font-sans border border-gray-200 rounded px-1">Enter</kbd> to submit
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Right Sidebar - AI Insights */}
-                                    <div className="w-48 border-l border-gray-100 bg-gray-50/30 p-4 hidden sm:flex flex-col gap-4">
+                                    {/* Right Sidebar - AI Insights - Full width on mobile, sidebar on desktop */}
+                                    <div className="flex-1 sm:flex-none sm:w-48 border-l-0 sm:border-l border-gray-100 bg-gray-50/30 p-4 flex flex-col gap-4">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">AI Insights</span>
+                                            <span className="text-xs sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider">AI Insights</span>
                                             <RefreshCw size={12} className="text-gray-400" />
                                         </div>
 
@@ -246,7 +259,7 @@ export default function FeatureTranscription() {
                             </div>
 
                         </div>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>

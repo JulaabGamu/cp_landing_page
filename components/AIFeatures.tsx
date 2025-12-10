@@ -1,5 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import localFont from "next/font/local";
+import { motion, useInView } from "framer-motion";
 
 const workSans = localFont({
     src: [
@@ -12,13 +15,40 @@ const workSans = localFont({
     ],
 });
 
-export function AIFeatures() {
+// Animated Toggle Component
+function AnimatedToggle({ delay = 0, isInView }: { delay?: number; isInView: boolean }) {
     return (
-        <section className="py-24 px-4 text-gray-900 relative">
+        <motion.div
+            className="mt-0.5 relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent"
+            initial={{ backgroundColor: "#e5e7eb" }}
+            animate={{ backgroundColor: isInView ? "#2563eb" : "#e5e7eb" }}
+            transition={{ duration: 0.3, delay: delay + 0.5 }}
+        >
+            <motion.span
+                className="pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow ring-0"
+                initial={{ x: 0 }}
+                animate={{ x: isInView ? 16 : 0 }}
+                transition={{ type: "spring" as const, stiffness: 500, damping: 30, delay: delay + 0.5 }}
+            />
+        </motion.div>
+    );
+}
+
+export function AIFeatures() {
+    const togglesRef = useRef(null);
+    const isTogglesInView = useInView(togglesRef, { once: true, margin: "-50px" });
+    return (
+        <section className="py-24 px-4 text-gray-900 relative overflow-hidden">
             <div className="max-w-7xl mx-auto">
 
                 {/* Section Header */}
-                <div className="text-center mb-16 max-w-3xl mx-auto">
+                <motion.div
+                    className="text-center mb-16 max-w-3xl mx-auto"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                >
                     <h2 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6 ${workSans.className}`}>
                         Intelligent storage. <br />
                         <span className="text-blue-600">Personalized AI.</span>
@@ -26,13 +56,13 @@ export function AIFeatures() {
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Your data stays local and your AI behaves exactly how you want. Customize the model&apos;s context and keep your transcripts secure.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Features Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                     {/* Feature 1: Local Vector Storage */}
-                    <div
+                    <motion.div
                         className="rounded-3xl p-8 lg:p-10 flex flex-col h-full"
                         style={{
                             background: "linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.2) 100%)",
@@ -40,6 +70,10 @@ export function AIFeatures() {
                             boxShadow: "0 8px 32px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.05)",
                             border: "1px solid rgba(255,255,255,0.5)"
                         }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6 }}
                     >
                         <div className="flex items-center gap-3 mb-4">
                             <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
@@ -62,7 +96,6 @@ export function AIFeatures() {
                                 <span className="relative">
                                     mitochondria
                                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-200"></span>
-                                    {/* Connection Line to Table Row 1 */}
                                     <svg className="absolute top-full left-1/2 w-px h-px overflow-visible pointer-events-none text-blue-300 z-0">
                                         <path d="M0,0 C0,40 -20,40 -40,90" fill="none" stroke="currentColor" strokeWidth="2" />
                                     </svg>
@@ -71,32 +104,28 @@ export function AIFeatures() {
                                 <span>the</span>
                                 <span className="relative">
                                     powerhouse
-                                    {/* Connection Line to Table Row 2 */}
                                     <svg className="absolute top-full left-1/2 w-px h-px overflow-visible pointer-events-none text-blue-300 z-0">
                                         <path d="M0,0 C0,50 -80,50 -160,130" fill="none" stroke="currentColor" strokeWidth="2" />
                                     </svg>
                                 </span>
-                                {/* Cursor Removed */}
                             </div>
 
                             {/* Data Table */}
-                            <div className="bg-gray-50 rounded-lg border border-gray-100 p-4 text-xs font-mono relative z-10">
-                                <div className="grid grid-cols-4 gap-4 text-gray-400 mb-2 uppercase tracking-wider text-[10px]">
-                                    <div className="col-span-1">Token</div>
-                                    <div className="col-span-1">Timestamp</div>
-                                    <div className="col-span-2">Vector</div>
+                            <div className="bg-gray-50 rounded-lg border border-gray-100 p-3 md:p-4 text-xs font-mono relative z-10 overflow-x-auto">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 text-gray-400 mb-2 uppercase tracking-wider text-[10px]">
+                                    <div>Token</div>
+                                    <div>Timestamp</div>
+                                    <div className="hidden md:block col-span-2">Vector</div>
                                 </div>
-                                {/* Row 1 */}
-                                <div className="grid grid-cols-4 gap-4 py-2 border-b border-gray-200 text-gray-700">
-                                    <div className="col-span-1 text-blue-600 font-semibold">mitochondria</div>
-                                    <div className="col-span-1">02:12:45</div>
-                                    <div className="col-span-2 text-gray-400">[0.12, -0.4, ...]</div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 py-2 border-b border-gray-200 text-gray-700">
+                                    <div className="text-blue-600 font-semibold truncate">mitochondria</div>
+                                    <div>02:12:45</div>
+                                    <div className="hidden md:block col-span-2 text-gray-400">[0.12, -0.4, ...]</div>
                                 </div>
-                                {/* Row 2 */}
-                                <div className="grid grid-cols-4 gap-4 py-2 text-gray-700">
-                                    <div className="col-span-1 font-semibold">powerhouse</div>
-                                    <div className="col-span-1">02:12:47</div>
-                                    <div className="col-span-2 text-gray-400">[0.88, 0.41, ...]</div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 py-2 text-gray-700">
+                                    <div className="font-semibold">powerhouse</div>
+                                    <div>02:12:47</div>
+                                    <div className="hidden md:block col-span-2 text-gray-400">[0.88, 0.41, ...]</div>
                                 </div>
                             </div>
                         </div>
@@ -106,10 +135,10 @@ export function AIFeatures() {
                             <span className="block w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                             Keep recording for up to 3 hours
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Feature 2: Custom Model Context */}
-                    <div
+                    <motion.div
                         className="rounded-3xl p-8 lg:p-10 flex flex-col h-full"
                         style={{
                             background: "linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.2) 100%)",
@@ -117,6 +146,10 @@ export function AIFeatures() {
                             boxShadow: "0 8px 32px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.05)",
                             border: "1px solid rgba(255,255,255,0.5)"
                         }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
                     >
                         <div className="flex items-center gap-3 mb-4">
                             <div className="p-2 bg-purple-100 rounded-lg text-purple-600">
@@ -153,20 +186,16 @@ export function AIFeatures() {
                             </div>
 
                             {/* Toggles */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            <div ref={togglesRef} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                 <div className="border border-gray-100 rounded-lg p-3 flex gap-3 items-start">
-                                    <div className="mt-0.5 relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 bg-blue-600">
-                                        <span className="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-                                    </div>
+                                    <AnimatedToggle delay={0} isInView={isTogglesInView} />
                                     <div>
                                         <p className="text-xs font-medium text-gray-900">Include action items</p>
                                         <p className="text-[10px] text-gray-500 leading-tight mt-1">Generate tasks & pipelines.</p>
                                     </div>
                                 </div>
                                 <div className="border border-gray-100 rounded-lg p-3 flex gap-3 items-start">
-                                    <div className="mt-0.5 relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 bg-blue-600">
-                                        <span className="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-                                    </div>
+                                    <AnimatedToggle delay={0.15} isInView={isTogglesInView} />
                                     <div>
                                         <p className="text-xs font-medium text-gray-900">Emphasise key terms</p>
                                         <p className="text-[10px] text-gray-500 leading-tight mt-1">Highlight formulas & references.</p>
@@ -187,7 +216,7 @@ export function AIFeatures() {
                             </div>
 
                         </div>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>
