@@ -14,33 +14,27 @@ export default function LogoCloud() {
                             speedOnHover={20}
                             speed={40}
                             gap={150}>
-                            <div className="flex">
+                            <div className="flex items-center">
                                 <img
-                                    className="mx-auto h-16 w-fit dark:invert"
+                                    className="mx-auto h-28 sm:h-28 md:h-24 w-auto dark:invert object-contain"
                                     src="/nus.png"
                                     alt="NUS Logo"
-                                    height="64"
-                                    width="auto"
                                 />
                             </div>
 
-                            <div className="flex">
+                            <div className="flex items-center">
                                 <img
-                                    className="mx-auto h-12 w-fit dark:invert"
+                                    className="mx-auto h-8 sm:h-10 md:h-12 w-auto dark:invert object-contain"
                                     src="/ntu.png"
                                     alt="NTU Logo"
-                                    height="32"
-                                    width="auto"
                                 />
                             </div>
 
-                            <div className="flex">
+                            <div className="flex items-center">
                                 <img
-                                    className="mx-auto h-12 w-fit dark:invert"
+                                    className="mx-auto h-8 sm:h-10 md:h-12 w-auto dark:invert object-contain"
                                     src="/smu.png"
                                     alt="SMU Logo"
-                                    height="48"
-                                    width="auto"
                                 />
                             </div>
                         </InfiniteSlider>
