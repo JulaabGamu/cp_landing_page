@@ -4,6 +4,7 @@ import React from "react";
 import { EB_Garamond } from "next/font/google";
 import { GradientButton } from "./GradientButton";
 import Aurora from "./Aurora";
+import HeroMockup from "./HeroMockup";
 
 const ebGaramond = EB_Garamond({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ const ebGaramond = EB_Garamond({
 
 export function ClassPartnerHero() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden text-gray-900 flex flex-col items-center pt-40 px-4">
+    <section className="relative min-h-screen w-full text-gray-900 flex flex-col items-center pt-40 pb-24 px-4">
       {/* Aurora Background */}
       <div className="absolute inset-0 z-0">
         <Aurora
@@ -45,29 +46,9 @@ export function ClassPartnerHero() {
         </GradientButton>
 
         {/* Glassmorphic App Board / UI Frame */}
-        <div className="mt-20 w-full relative group">
-          {/* The Glass Frame */}
-          <div
-            className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-gray-200 shadow-2xl transition-all duration-500 ease-out flex items-center justify-center"
-            style={{
-              background: "linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(245, 245, 245, 0.8) 100%)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.05) inset"
-            }}
-          >
-            {/* App UI Screenshot */}
-            <img
-              src="/hero.jpg"
-              alt="App Screenshot"
-              className="w-full h-full object-cover"
-            />
-
-            {/* Decorative Elements on top of glass (like reflection highlights) */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-black/5 to-transparent opacity-50" />
-          </div>
-
-          {/* Glow behind the frame */}
-          <div className="absolute -inset-1 bg-gradient-to-tr from-purple-500/20 via-blue-500/10 to-transparent blur-3xl opacity-50 -z-10 rounded-[3rem]" />
+        {/* Mockup Container */}
+        <div className="mt-12 w-full max-w-6xl z-10">
+          <HeroMockup />
         </div>
 
       </div>
