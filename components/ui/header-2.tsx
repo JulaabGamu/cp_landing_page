@@ -2,12 +2,10 @@
 import React from 'react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { MenuToggleIcon } from '@/components/ui/menu-toggle-icon';
 import { useScroll } from '@/components/ui/use-scroll';
 
 
 export function Header() {
-	const [open, setOpen] = React.useState(false);
 	const scrolled = useScroll(10);
 
 	const links = [
@@ -25,30 +23,14 @@ export function Header() {
 		},
 	];
 
-	React.useEffect(() => {
-		if (open) {
-			// Disable scroll
-			document.body.style.overflow = 'hidden';
-		} else {
-			// Re-enable scroll
-			document.body.style.overflow = '';
-		}
-
-		// Cleanup when component unmounts (important for Next.js)
-		return () => {
-			document.body.style.overflow = '';
-		};
-	}, [open]);
-
 	return (
 		<header
 			className={cn(
 				'fixed top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent left-1/2 -translate-x-1/2 transition-all duration-500 ease-out',
 				{
 					'bg-background/80 supports-[backdrop-filter]:bg-background/10 border-border backdrop-blur-lg md:top-4 md:max-w-4xl md:shadow md:rounded-full md:border text-foreground':
-						scrolled && !open,
-					'bg-background/90': open,
-					'text-white': !scrolled && !open,
+						scrolled,
+					'text-white': !scrolled,
 				},
 			)}
 		>
@@ -68,7 +50,7 @@ export function Header() {
 							className={cn(
 								buttonVariants({ variant: 'ghost' }),
 								"rounded-full transition-colors",
-								!scrolled && !open ? "text-white hover:text-white/80 hover:bg-white/10" : ""
+								!scrolled ? "text-white hover:text-white/80 hover:bg-white/10" : ""
 							)}
 							href={link.href}
 						>
