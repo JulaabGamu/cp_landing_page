@@ -1,12 +1,18 @@
 "use client";
 
 import React from "react";
-import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-const ebGaramond = EB_Garamond({
-    subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
+const workSans = localFont({
+    src: [
+        { path: "../public/fonts/WorkSans-ExtraLight.woff2", weight: "200", style: "normal" },
+        { path: "../public/fonts/WorkSans-Light.woff2", weight: "300", style: "normal" },
+        { path: "../public/fonts/WorkSans-Regular.woff2", weight: "400", style: "normal" },
+        { path: "../public/fonts/WorkSans-Medium.woff2", weight: "500", style: "normal" },
+        { path: "../public/fonts/WorkSans-SemiBold.woff2", weight: "600", style: "normal" },
+        { path: "../public/fonts/WorkSans-Bold.woff2", weight: "700", style: "normal" },
+    ],
 });
 
 export function ClassPartnerFAQ() {
@@ -42,7 +48,7 @@ export function ClassPartnerFAQ() {
         <section className="py-24 px-4 text-gray-900 border-t border-gray-100/50 relative">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className={`text-4xl md:text-5xl font-medium tracking-tight mb-6 ${ebGaramond.className}`}>
+                    <h2 className={`text-4xl md:text-5xl font-light tracking-tight mb-6 ${workSans.className}`}>
                         Frequently Asked Questions
                     </h2>
                     <p className="text-lg text-gray-600">

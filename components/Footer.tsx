@@ -1,10 +1,16 @@
 import React from "react";
 import Link from "next/link";
-import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 
-const ebGaramond = EB_Garamond({
-    subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
+const workSans = localFont({
+    src: [
+        { path: "../public/fonts/WorkSans-ExtraLight.woff2", weight: "200", style: "normal" },
+        { path: "../public/fonts/WorkSans-Light.woff2", weight: "300", style: "normal" },
+        { path: "../public/fonts/WorkSans-Regular.woff2", weight: "400", style: "normal" },
+        { path: "../public/fonts/WorkSans-Medium.woff2", weight: "500", style: "normal" },
+        { path: "../public/fonts/WorkSans-SemiBold.woff2", weight: "600", style: "normal" },
+        { path: "../public/fonts/WorkSans-Bold.woff2", weight: "700", style: "normal" },
+    ],
 });
 
 export function Footer() {
@@ -18,7 +24,7 @@ export function Footer() {
                     {/* Brand Column */}
                     <div className="col-span-2 lg:col-span-2">
                         <Link href="/" className="inline-block mb-6">
-                            <span className={`text-2xl font-semibold tracking-tight text-gray-900 ${ebGaramond.className}`}>
+                            <span className={`text-2xl font-semibold tracking-tight text-gray-900 ${workSans.className}`}>
                                 ClassPartner
                             </span>
                         </Link>

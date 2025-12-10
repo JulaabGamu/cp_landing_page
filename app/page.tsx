@@ -6,6 +6,7 @@ import { AIFeatures } from "@/components/AIFeatures";
 import { FeatureOrganization } from "@/components/FeatureOrganization";
 import { ClassPartnerFAQ } from "@/components/ClassPartnerFAQ";
 import { Footer } from "@/components/Footer";
+import { CTASection } from "@/components/CTASection";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
       <AIFeatures />
       <FeatureOrganization />
       <ClassPartnerFAQ />
+      <CTASection />
       <Footer />
     </main>
   );

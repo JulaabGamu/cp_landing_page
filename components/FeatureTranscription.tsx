@@ -4,6 +4,18 @@ import React, { useState, useEffect } from "react";
 import { GradientButton } from "./GradientButton";
 import { Mic, Send, GripHorizontal, StopCircle, RefreshCw, CheckCircle2 } from "lucide-react";
 import { Button } from "./ui/button";
+import localFont from "next/font/local";
+
+const workSans = localFont({
+    src: [
+        { path: "../public/fonts/WorkSans-ExtraLight.woff2", weight: "200", style: "normal" },
+        { path: "../public/fonts/WorkSans-Light.woff2", weight: "300", style: "normal" },
+        { path: "../public/fonts/WorkSans-Regular.woff2", weight: "400", style: "normal" },
+        { path: "../public/fonts/WorkSans-Medium.woff2", weight: "500", style: "normal" },
+        { path: "../public/fonts/WorkSans-SemiBold.woff2", weight: "600", style: "normal" },
+        { path: "../public/fonts/WorkSans-Bold.woff2", weight: "700", style: "normal" },
+    ],
+});
 
 export default function FeatureTranscription() {
     const [visibleWords, setVisibleWords] = useState<string[]>([]);
@@ -75,7 +87,7 @@ export default function FeatureTranscription() {
 
                     {/* Description Paragraph (On the Left) */}
                     <div className="order-2 lg:order-1 flex flex-col gap-6">
-                        <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-gray-900 font-serif">
+                        <h2 className={`text-4xl md:text-5xl font-light tracking-tight text-gray-900 ${workSans.className}`}>
                             Fast transcriptions, <br />
                             <span className="text-blue-600">effortless learning.</span>
                         </h2>

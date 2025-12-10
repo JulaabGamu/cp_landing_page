@@ -1,9 +1,15 @@
 import React from "react";
-import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 
-const ebGaramond = EB_Garamond({
-    subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
+const workSans = localFont({
+    src: [
+        { path: "../public/fonts/WorkSans-ExtraLight.woff2", weight: "200", style: "normal" },
+        { path: "../public/fonts/WorkSans-Light.woff2", weight: "300", style: "normal" },
+        { path: "../public/fonts/WorkSans-Regular.woff2", weight: "400", style: "normal" },
+        { path: "../public/fonts/WorkSans-Medium.woff2", weight: "500", style: "normal" },
+        { path: "../public/fonts/WorkSans-SemiBold.woff2", weight: "600", style: "normal" },
+        { path: "../public/fonts/WorkSans-Bold.woff2", weight: "700", style: "normal" },
+    ],
 });
 
 export function AIFeatures() {
@@ -13,7 +19,7 @@ export function AIFeatures() {
 
                 {/* Section Header */}
                 <div className="text-center mb-16 max-w-3xl mx-auto">
-                    <h2 className={`text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 ${ebGaramond.className}`}>
+                    <h2 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6 ${workSans.className}`}>
                         Intelligent storage. <br />
                         <span className="text-blue-600">Personalized AI.</span>
                     </h2>

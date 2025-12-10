@@ -1,14 +1,20 @@
 "use client";
 
 import React from "react";
-import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import { GradientButton } from "./GradientButton";
 import Aurora from "./Aurora";
 import HeroMockup from "./HeroMockup";
 
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const workSans = localFont({
+  src: [
+    { path: "../public/fonts/WorkSans-ExtraLight.woff2", weight: "200", style: "normal" },
+    { path: "../public/fonts/WorkSans-Light.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/WorkSans-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/WorkSans-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/WorkSans-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/WorkSans-Bold.woff2", weight: "700", style: "normal" },
+  ],
 });
 
 export function ClassPartnerHero() {
@@ -27,10 +33,10 @@ export function ClassPartnerHero() {
 
 
       {/* Content Container */}
-      <div className={`relative z-10 flex flex-col items-center max-w-5xl w-full text-center ${ebGaramond.className}`}>
+      <div className={`relative z-10 flex flex-col items-center max-w-5xl w-full text-center ${workSans.className}`}>
 
         {/* Headline */}
-        <h1 className="text-5xl md:text-7xl lg:text-[80px] leading-[0.95] font-medium text-white tracking-tight mb-8">
+        <h1 className="text-5xl md:text-7xl lg:text-[80px] leading-[0.95] font-light text-white tracking-tight mb-8">
           Learn actively. In every class.
         </h1>
 
