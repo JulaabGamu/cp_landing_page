@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -56,18 +57,28 @@ export function ExpandableScreen({
   contentRadius = "24px",
   animationDuration = 0.3,
   lockScroll = true,
-}: ExpandableScreenProps) {
+  globalEventName,
+}: ExpandableScreenProps & { globalEventName?: string }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded)
 
-  const expand = () => {
+  const expand = useCallback(() => {
     setIsExpanded(true)
     onExpandChange?.(true)
-  }
+  }, [onExpandChange])
 
-  const collapse = () => {
+  const collapse = useCallback(() => {
     setIsExpanded(false)
     onExpandChange?.(false)
-  }
+  }, [onExpandChange])
+
+  // Listen for global event to open
+  useEffect(() => {
+    if (!globalEventName) return
+
+    const handleOpen = () => expand()
+    window.addEventListener(globalEventName, handleOpen)
+    return () => window.removeEventListener(globalEventName, handleOpen)
+  }, [globalEventName, expand])
 
   useEffect(() => {
     if (lockScroll) {

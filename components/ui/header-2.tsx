@@ -1,74 +1,182 @@
 'use client';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useScroll } from '@/components/ui/use-scroll';
+import { motion, AnimatePresence } from 'motion/react';
+import { Work_Sans } from 'next/font/google';
 
+const workSans = Work_Sans({ subsets: ['latin'], weight: ['300', '400', '500'] });
+
+const features = [
+	{
+		label: 'Transcription',
+		href: '#transcription',
+		icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z',
+	},
+	{
+		label: 'Organization',
+		href: '#organization',
+		icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+	},
+	{
+		label: 'AI Intelligence',
+		href: '#ai-features',
+		icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+	},
+];
 
 export function Header() {
 	const scrolled = useScroll(10);
+	const [featuresOpen, setFeaturesOpen] = useState(false);
+	const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+	const buttonRef = useRef<HTMLButtonElement>(null);
+	const [mounted, setMounted] = useState(false);
 
-	const links = [
-		{
-			label: 'Features',
-			href: '#',
-		},
-		{
-			label: 'Pricing',
-			href: '#',
-		},
-		{
-			label: 'About',
-			href: '#',
-		},
-	];
+	useEffect(() => {
+		const frame = requestAnimationFrame(() => setMounted(true));
+		return () => cancelAnimationFrame(frame);
+	}, []);
+
+	useEffect(() => {
+		if (featuresOpen && buttonRef.current) {
+			const rect = buttonRef.current.getBoundingClientRect();
+			setDropdownPosition({
+				top: rect.bottom + 8,
+				left: rect.left,
+			});
+		}
+	}, [featuresOpen, scrolled]);
+
+	const handleFeatureClick = (href: string) => {
+		setFeaturesOpen(false);
+		const element = document.querySelector(href);
+		if (element) {
+			element.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
 
 	return (
-		<header
-			className={cn(
-				'fixed top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent left-1/2 -translate-x-1/2 transition-all duration-500 ease-out',
-				{
-					'bg-background/80 supports-[backdrop-filter]:bg-background/10 border-border backdrop-blur-lg md:top-4 md:max-w-4xl md:shadow md:rounded-full md:border text-foreground':
-						scrolled,
-					'text-white': !scrolled,
-				},
-			)}
-		>
-			<nav
+		<>
+			<header
 				className={cn(
-					'flex h-14 w-full items-center justify-between px-4 md:h-12 md:transition-all md:ease-out',
+					'fixed z-[100] mx-auto w-full max-w-5xl border-b border-transparent left-1/2 -translate-x-1/2 transition-all duration-500 ease-out',
 					{
-						'md:px-4': scrolled,
+						'top-0 bg-background/80 supports-[backdrop-filter]:bg-background/60 backdrop-blur-xl md:top-4 md:max-w-4xl md:shadow md:rounded-full text-foreground':
+							scrolled,
+						'top-4 md:top-6 text-white': !scrolled,
 					},
 				)}
 			>
-				<span className="text-lg font-semibold tracking-tight transition-colors">ClassPartner</span>
-				<div className="hidden items-center gap-2 md:flex">
-					{links.map((link, i) => (
-						<a
-							key={i}
+				<nav
+					className={cn(
+						'flex h-14 w-full items-center justify-between px-4 md:h-12 md:transition-all md:ease-out',
+						{
+							'md:pl-6 md:pr-2': scrolled,
+						},
+					)}
+				>
+					<span className={cn(
+						"font-semibold tracking-tight transition-all duration-300 flex items-center gap-2",
+						scrolled ? "text-lg" : "text-2xl"
+					)}>
+						{scrolled ? (
+							<img src="/black.svg" alt="" className="h-5 w-5" />
+						) : (
+							<img src="/white.svg" alt="" className="h-7 w-7" />
+						)}
+						ClassPartner
+					</span>
+					<div className={cn(
+						"hidden items-center md:flex transition-all duration-300",
+						scrolled ? "text-sm gap-1" : "text-xl gap-2"
+					)}>
+						{/* Features Dropdown Trigger */}
+						<button
+							ref={buttonRef}
+							onClick={() => setFeaturesOpen(!featuresOpen)}
 							className={cn(
 								buttonVariants({ variant: 'ghost' }),
-								"rounded-full transition-colors",
-								!scrolled ? "text-white hover:text-white/80 hover:bg-white/10" : ""
+								"rounded-full transition-all duration-300 flex items-center gap-1",
+								!scrolled ? "text-white hover:text-white/80 hover:bg-white/10 text-xl" : "text-sm"
 							)}
-							href={link.href}
 						>
-							{link.label}
+							Features
+							<svg
+								className={cn("w-4 h-4 transition-transform duration-200", featuresOpen && "rotate-180")}
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+							</svg>
+						</button>
+
+						<a
+							className={cn(
+								buttonVariants({ variant: 'ghost' }),
+								"rounded-full transition-all duration-300",
+								!scrolled ? "text-white hover:text-white/80 hover:bg-white/10 text-xl" : "text-sm"
+							)}
+							href="#"
+						>
+							About Us
 						</a>
-					))}
-					<Button
-						className={cn(
-							"rounded-full transition-all duration-300",
-							scrolled ? "opacity-100 scale-100" : "opacity-0 scale-95 hidden"
-						)}
-						style={{ backgroundColor: '#1E82E0' }}
-					>
-						Get Started
-					</Button>
-				</div>
-			</nav>
-		</header>
+
+						<Button
+							className={cn(
+								"rounded-full transition-all duration-300 bg-gradient-to-r from-[#60a5fa] to-[#3b82f6] hover:opacity-90 border-0 text-white",
+								scrolled ? "opacity-100 scale-100" : "opacity-0 scale-95 hidden"
+							)}
+							onClick={() => {
+								window.scrollTo({ top: 0, behavior: 'smooth' });
+								// Dispatch custom event to open waitlist form
+								setTimeout(() => {
+									window.dispatchEvent(new CustomEvent('openWaitlistForm'));
+								}, 300);
+							}}
+						>
+							Join Waitlist
+						</Button>
+					</div>
+				</nav>
+			</header>
+
+			{/* Dropdown Portal - rendered outside the header to avoid blur stacking */}
+			{mounted && createPortal(
+				<AnimatePresence>
+					{featuresOpen && (
+						<motion.div
+							initial={{ opacity: 0, y: -10, scale: 0.95 }}
+							animate={{ opacity: 1, y: 0, scale: 1 }}
+							exit={{ opacity: 0, y: -10, scale: 0.95 }}
+							transition={{ duration: 0.2, ease: "easeOut" }}
+							className={`fixed z-[60] w-64 rounded-2xl bg-white/70 backdrop-blur-2xl border border-gray-200/50 shadow-2xl overflow-hidden ${workSans.className}`}
+							style={{ top: dropdownPosition.top, left: dropdownPosition.left }}
+						>
+							<div className="p-2">
+								{features.map((feature, i) => (
+									<button
+										key={i}
+										onClick={() => handleFeatureClick(feature.href)}
+										className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100/80 transition-colors text-left group"
+									>
+										<div className="w-5 h-5 flex items-center justify-center text-blue-500 shrink-0">
+											<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={feature.icon} />
+											</svg>
+										</div>
+										<span className="font-normal text-gray-800 text-sm">{feature.label}</span>
+									</button>
+								))}
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>,
+				document.body
+			)}
+		</>
 	);
 }
 

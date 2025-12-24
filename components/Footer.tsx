@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import localFont from "next/font/local";
@@ -19,16 +21,16 @@ export function Footer() {
     return (
         <footer className="bg-gray-50 border-t border-gray-200">
             <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+                <div className="flex flex-col md:flex-row justify-between gap-12 mb-12">
 
                     {/* Brand Column */}
-                    <div className="col-span-2 lg:col-span-2">
+                    <div className="max-w-sm">
                         <Link href="/" className="inline-block mb-6">
                             <span className={`text-2xl font-semibold tracking-tight text-gray-900 ${workSans.className}`}>
                                 ClassPartner
                             </span>
                         </Link>
-                        <p className="text-gray-500 text-sm leading-relaxed max-w-sm mb-8">
+                        <p className="text-gray-500 text-sm leading-relaxed mb-8">
                             The AI study companion that keeps your data local. Transcribe lectures, organize notes, and master your coursework with privacy-first intelligence.
                         </p>
                         <div className="flex gap-4">
@@ -44,37 +46,24 @@ export function Footer() {
                         </div>
                     </div>
 
-                    {/* Links Column 1 */}
-                    <div>
-                        <h4 className="font-semibold text-gray-900 mb-4 text-sm">Product</h4>
-                        <ul className="space-y-3 text-sm text-gray-600">
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Features</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Download</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Changelog</Link></li>
-                        </ul>
-                    </div>
+                    <div className="flex gap-16 md:gap-24">
+                        {/* Links Column 1: Product */}
+                        <div>
+                            <h4 className="font-semibold text-gray-900 mb-4 text-sm font-medium">Product</h4>
+                            <ul className="space-y-3 text-sm text-gray-600">
+                                <li><button onClick={() => { document.getElementById('transcription')?.scrollIntoView({ behavior: 'smooth' }) }} className="hover:text-blue-600 transition-colors">Features</button></li>
+                                <li><button onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(() => { window.dispatchEvent(new CustomEvent('openWaitlistForm')); }, 300); }} className="hover:text-blue-600 transition-colors">Waitlist</button></li>
+                            </ul>
+                        </div>
 
-                    {/* Links Column 2 */}
-                    <div>
-                        <h4 className="font-semibold text-gray-900 mb-4 text-sm">Resources</h4>
-                        <ul className="space-y-3 text-sm text-gray-600">
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Documentation</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Community</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Help Center</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Blog</Link></li>
-                        </ul>
-                    </div>
-
-                    {/* Links Column 3 */}
-                    <div>
-                        <h4 className="font-semibold text-gray-900 mb-4 text-sm">Company</h4>
-                        <ul className="space-y-3 text-sm text-gray-600">
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">About</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Careers</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Legal</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Contact</Link></li>
-                        </ul>
+                        {/* Links Column 2: Company */}
+                        <div>
+                            <h4 className="font-semibold text-gray-900 mb-4 text-sm font-medium">Company</h4>
+                            <ul className="space-y-3 text-sm text-gray-600">
+                                <li><Link href="#" className="hover:text-blue-600 transition-colors">Contact</Link></li>
+                                <li><Link href="#" className="hover:text-blue-600 transition-colors">About Us</Link></li>
+                            </ul>
+                        </div>
                     </div>
 
                 </div>

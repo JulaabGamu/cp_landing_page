@@ -2,7 +2,6 @@
 
 import React from "react";
 import { ChevronRight } from "lucide-react";
-import Link from "next/link";
 import { GradientButton } from "./GradientButton";
 import localFont from "next/font/local";
 import Aurora from "./Aurora";
@@ -68,19 +67,23 @@ export function CTASection() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-center">
-                            <GradientButton href="#" variant="inverted" className="group !p-4 !px-8 h-14">
-                                Get Started Free
+                            <GradientButton
+                                onClick={() => {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    setTimeout(() => {
+                                        window.dispatchEvent(new CustomEvent('openWaitlistForm'));
+                                    }, 300);
+                                }}
+                                variant="inverted"
+                                className="group !p-4 !px-8 h-14"
+                            >
+                                Join Waitlist
                                 <div className="bg-blue-100/50 rounded-full p-1 ml-2 group-hover:translate-x-1 transition-transform text-blue-600">
                                     <ChevronRight size={14} />
                                 </div>
                             </GradientButton>
 
-                            <Link
-                                href="#"
-                                className="group flex items-center justify-center gap-2 bg-blue-500/20 backdrop-blur-sm text-white px-8 h-14 rounded-xl font-medium transition-all hover:bg-blue-500/30 border border-white/10"
-                            >
-                                View Demo
-                            </Link>
+
                         </div>
                     </div>
 

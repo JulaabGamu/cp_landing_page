@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import localFont from "next/font/local";
-import { motion } from "framer-motion";
-import { GradientButton } from "./GradientButton";
+import Image from "next/image";
+import { LayoutGroup, motion } from "framer-motion";
+import { AnimatedShinyButton } from "./ui/animated-shiny-button";
 import Aurora from "./Aurora";
 import HeroMockup from "./HeroMockup";
+import TextRotate from "./fancy/text/text-rotate";
 import {
   ExpandableScreen,
   ExpandableScreenTrigger,
@@ -51,6 +53,150 @@ const mockupVariants = {
     },
   },
 };
+
+const ROTATING_TEXTS = ["anytime", "anywhere", "ClassPartner"];
+
+function RotatingHeadline() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // Show logo whenever we are at index 2 ("anything")
+  const isLogoActive = currentIndex === 2;
+
+  return (
+    <LayoutGroup>
+      <motion.h1
+        className="text-4xl md:text-7xl lg:text-[80px] leading-[1.2] md:leading-[1.1] font-light text-white tracking-tight mb-8 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-3"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        {/* Line 1 on mobile, inline on desktop */}
+        <motion.span
+          className="pt-1 md:pt-2 whitespace-nowrap"
+          layout
+          transition={{ type: "spring", damping: 30, stiffness: 400 }}
+        >
+          Listen once,
+        </motion.span>
+
+        {/* Line 2 on mobile: "ask [rotating word]" */}
+        <motion.span className="flex flex-nowrap whitespace-pre items-center" layout>
+          <motion.span
+            className="pt-1 md:pt-2 hidden md:inline"
+            layout
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          >
+            {" "}
+          </motion.span>
+          <motion.span
+            className="pt-1 md:pt-2 mr-2 md:mr-3"
+            layout
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          >
+            ask
+          </motion.span>
+          <motion.span
+            layout
+            className="flex items-center text-white px-4 py-2.5 md:px-5 md:py-3 overflow-hidden rounded-xl md:rounded-2xl bg-gradient-to-br from-[#1E82E0] to-[#1C38EA]"
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          >
+            <TextRotate
+              texts={ROTATING_TEXTS}
+              mainClassName="text-white"
+              staggerFrom="last"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-120%" }}
+              staggerDuration={0.025}
+              splitLevelClassName="overflow-hidden py-1 md:py-2 pr-2"
+              transition={{ type: "spring", damping: 30, stiffness: 400 }}
+              rotationInterval={2500}
+              onNext={(index) => setCurrentIndex(index)}
+              animatePresenceMode="popLayout"
+            />
+            {/* Logo animation: Smooth width expansion with fixed values */}
+            <motion.span
+              animate={{
+                width: isLogoActive ? 48 : 0,
+                opacity: isLogoActive ? 1 : 0,
+                marginLeft: isLogoActive ? 6 : 0,
+              }}
+              initial={{ width: 0, opacity: 0, marginLeft: 0 }}
+              transition={{
+                type: "spring",
+                damping: 30,
+                stiffness: 400,
+                opacity: { duration: 0.15 }
+              }}
+              style={{ overflow: "hidden" }}
+              className="flex-shrink-0 flex items-center md:hidden"
+            >
+              <Image
+                src="/white.svg"
+                alt="Class Partner logo"
+                width={80}
+                height={80}
+                className="w-[48px] h-[48px] object-contain"
+                priority
+              />
+            </motion.span>
+            {/* Medium screens */}
+            <motion.span
+              animate={{
+                width: isLogoActive ? 64 : 0,
+                opacity: isLogoActive ? 1 : 0,
+                marginLeft: isLogoActive ? 8 : 0,
+              }}
+              initial={{ width: 0, opacity: 0, marginLeft: 0 }}
+              transition={{
+                type: "spring",
+                damping: 30,
+                stiffness: 400,
+                opacity: { duration: 0.15 }
+              }}
+              style={{ overflow: "hidden" }}
+              className="flex-shrink-0 items-center hidden md:flex lg:hidden"
+            >
+              <Image
+                src="/white.svg"
+                alt="Class Partner logo"
+                width={96}
+                height={96}
+                className="w-[64px] h-[64px] object-contain"
+                priority
+              />
+            </motion.span>
+            {/* Large screens */}
+            <motion.span
+              animate={{
+                width: isLogoActive ? 80 : 0,
+                opacity: isLogoActive ? 1 : 0,
+                marginLeft: isLogoActive ? 10 : 0,
+              }}
+              initial={{ width: 0, opacity: 0, marginLeft: 0 }}
+              transition={{
+                type: "spring",
+                damping: 30,
+                stiffness: 400,
+                opacity: { duration: 0.15 }
+              }}
+              style={{ overflow: "hidden" }}
+              className="flex-shrink-0 items-center hidden lg:flex"
+            >
+              <Image
+                src="/white.svg"
+                alt="Class Partner logo"
+                width={128}
+                height={128}
+                className="w-[80px] h-[80px] object-contain"
+                priority
+              />
+            </motion.span>
+          </motion.span>
+        </motion.span>
+      </motion.h1>
+    </LayoutGroup>
+  );
+}
 
 type FormStatus = "idle" | "loading" | "success";
 
@@ -327,42 +473,10 @@ export function ClassPartnerHero() {
       </div>
 
       {/* Content Container */}
-      <div className={`relative z-10 flex flex-col items-center max-w-5xl w-full text-center ${workSans.className}`}>
+      <div className={`relative z-10 flex flex-col items-center max-w-7xl w-full text-center ${workSans.className}`}>
 
-        {/* Headline - Word by word animation */}
-        <motion.h1
-          className="text-5xl md:text-7xl lg:text-[80px] leading-[0.95] font-light text-white tracking-tight mb-8 flex flex-wrap justify-center gap-x-[0.3em]"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.08,
-              },
-            },
-          }}
-        >
-          {["Learn", "actively.", "In", "every", "class."].map((word, i) => (
-            <motion.span
-              key={i}
-              className="inline-block"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    ease: "easeOut" as const,
-                  },
-                },
-              }}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </motion.h1>
+        {/* Headline with rotating text */}
+        <RotatingHeadline />
 
         {/* Subhead */}
         <motion.p
@@ -372,7 +486,7 @@ export function ClassPartnerHero() {
           animate="visible"
           custom={0.15}
         >
-          Transcribe every word, ask better questions, learn actively. AI-powered clarity for every class, privacy-first
+          Transcribe every lecture, then ask your AI partner about any topic — anytime you need it. Privacy-first.
         </motion.p>
 
         {/* CTA Button with Expandable Waitlist Form */}
@@ -387,11 +501,12 @@ export function ClassPartnerHero() {
             triggerRadius="12px"
             contentRadius="24px"
             animationDuration={0.4}
+            globalEventName="openWaitlistForm"
           >
             <ExpandableScreenTrigger>
-              <GradientButton>
+              <AnimatedShinyButton>
                 Join Waitlist
-              </GradientButton>
+              </AnimatedShinyButton>
             </ExpandableScreenTrigger>
 
             <ExpandableScreenContent
