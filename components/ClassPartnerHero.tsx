@@ -198,7 +198,7 @@ function RotatingHeadline() {
   );
 }
 
-type FormStatus = "idle" | "loading" | "success";
+type FormStatus = "idle" | "loading" | "success" | "error";
 
 function WaitlistForm() {
   const { collapse } = useExpandableScreen();
@@ -207,19 +207,54 @@ function WaitlistForm() {
   const [role, setRole] = useState("");
   const [excited, setExcited] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorMessage("");
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setStatus("success");
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          role,
+          excited,
+        }),
+      });
 
-    // Auto-close after success
-    setTimeout(() => {
-      collapse();
-    }, 2000);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to join waitlist");
+      }
+
+      setStatus("success");
+
+      // Auto-close after success
+      setTimeout(() => {
+        collapse();
+        // Reset form
+        setEmail("");
+        setName("");
+        setRole("");
+        setExcited("");
+        setStatus("idle");
+      }, 2000);
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "An error occurred. Please try again.");
+
+      // Reset to idle after showing error for 5 seconds
+      setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+    }
   };
 
   if (status === "success") {
@@ -244,6 +279,16 @@ function WaitlistForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Error Message */}
+      {status === "error" && errorMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-4 bg-red-50 border border-red-200 rounded-lg"
+        >
+          <p className="text-sm text-red-600">{errorMessage}</p>
+        </motion.div>
+      )}
       {/* Full Name */}
       <div>
         <label htmlFor="waitlist-name" className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
