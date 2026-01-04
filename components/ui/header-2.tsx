@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useScroll } from '@/components/ui/use-scroll';
@@ -77,17 +78,20 @@ export function Header() {
 						},
 					)}
 				>
-					<span className={cn(
-						"font-semibold tracking-tight transition-all duration-300 flex items-center gap-2",
-						scrolled ? "text-lg" : "text-2xl"
-					)}>
+					<Link
+						href="/"
+						className={cn(
+							"font-semibold tracking-tight transition-all duration-300 flex items-center gap-2 cursor-pointer hover:opacity-80",
+							scrolled ? "text-lg" : "text-2xl"
+						)}
+					>
 						{scrolled ? (
 							<img src="/black.svg" alt="" className="h-5 w-5" />
 						) : (
 							<img src="/white.svg" alt="" className="h-7 w-7" />
 						)}
 						ClassPartner
-					</span>
+					</Link>
 					<div className={cn(
 						"hidden items-center md:flex transition-all duration-300",
 						scrolled ? "text-sm gap-1" : "text-xl gap-2"
@@ -119,7 +123,7 @@ export function Header() {
 								"rounded-full transition-all duration-300",
 								!scrolled ? "text-white hover:text-white/80 hover:bg-white/10 text-xl" : "text-sm"
 							)}
-							href="#"
+							href="/about"
 						>
 							About Us
 						</a>
