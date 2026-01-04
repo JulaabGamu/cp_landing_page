@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   title: "ClassPartner - Learn Better",
   description: "The AI study companion that keeps your data local. Transcribe lectures, organize notes, and master your coursework with privacy-first intelligence.",
   icons: {
-    icon: "/white.svg",
-    apple: "/white.svg",
+    icon: "/blue.svg",
+    apple: "/blue.svg",
   },
 };
 
