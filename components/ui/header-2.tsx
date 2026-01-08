@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useScroll } from '@/components/ui/use-scroll';
@@ -82,9 +83,9 @@ export function Header() {
 						scrolled ? "text-lg" : "text-2xl"
 					)}>
 						{scrolled ? (
-							<img src="/black.svg" alt="" className="h-5 w-5" />
+							<Image src="/black.svg" alt="" width={20} height={20} className="h-5 w-5" />
 						) : (
-							<img src="/white.svg" alt="" className="h-7 w-7" />
+							<Image src="/white.svg" alt="" width={28} height={28} className="h-7 w-7" />
 						)}
 						ClassPartner
 					</span>

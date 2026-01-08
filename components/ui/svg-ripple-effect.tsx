@@ -1,6 +1,6 @@
 "use client"
 
-import { clsx } from "clsx"
+import Image from "next/image"
 import { motion } from "motion/react"
 
 interface SvgRippleEffectProps {
@@ -69,9 +69,11 @@ export default function SvgRippleEffect({
       )}
       {image && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <img
+          <Image
             src={image}
             alt=""
+            width={32}
+            height={32}
             className="h-6 w-6 rounded-full bg-transparent object-cover sm:h-8 sm:w-8"
           />
         </div>
